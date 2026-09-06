@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Repository = 'z4none/kyna-release'
+    [string]$Repository = 'fynx-dev/kyna-release'
 )
 
 Set-StrictMode -Version Latest
