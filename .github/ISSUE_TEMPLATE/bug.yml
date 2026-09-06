@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a reproducible Kyna problem.
+title: "[Bug]: "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include API keys, access tokens, private media paths, or security vulnerabilities. Use GitHub private security reporting for security issues."
+  - type: input
+    id: kyna_version
+    attributes:
+      label: Kyna version
+      placeholder: vX.Y.Z
+    validations:
+      required: true
+  - type: input
+    id: windows_version
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 24H2 (build ...)
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: List the smallest reproducible sequence.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and sanitized logs
+    validations:
+      required: true

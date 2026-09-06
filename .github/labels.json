@@ -1,0 +1,7 @@
+[
+  {"name":"bug","color":"d73a4a","description":"A reproducible defect."},
+  {"name":"enhancement","color":"a2eeef","description":"A user-facing improvement request."},
+  {"name":"documentation","color":"0075ca","description":"Documentation needs correction or expansion."},
+  {"name":"needs-triage","color":"fbca04","description":"Awaiting maintainer classification."},
+  {"name":"invalid","color":"e4e669","description":"Not actionable or not reproducible."}
+]
