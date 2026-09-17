@@ -3,7 +3,6 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://fynx-dev.github.io',
-  base: '/kyna-release',
   trailingSlash: 'always',
   integrations: [sitemap()],
   server: {
