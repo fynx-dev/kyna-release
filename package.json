@@ -1,0 +1,19 @@
+{
+  "name": "kyna-release",
+  "private": true,
+  "version": "0.1.0",
+  "description": "User-facing Kyna downloads, installation guidance, and landing page.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4300",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1 --port 4300"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.3.1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

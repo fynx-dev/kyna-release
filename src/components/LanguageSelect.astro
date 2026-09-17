@@ -1,0 +1,211 @@
+---
+interface Props {
+  locale: 'en' | 'zh-CN' | 'ja' | 'ko';
+  isInstallPage?: boolean;
+  docSlug?: string;
+}
+
+const { locale, isInstallPage = false, docSlug } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function getPathForLang(code: string) {
+  if (docSlug) {
+    const cleanSlug = docSlug.replace(/^\//, '');
+    return code === 'en' ? `/docs/${cleanSlug}/` : `/${code}/docs/${cleanSlug}/`;
+  }
+  if (isInstallPage) {
+    return code === 'en' ? '/install/' : `/${code}/install/`;
+  }
+  return code === 'en' ? '/' : `/${code}/`;
+}
+
+const languages = [
+  { code: 'en', label: 'English', path: getPathForLang('en') },
+  { code: 'zh-CN', label: '简体中文', path: getPathForLang('zh-CN') },
+  { code: 'ja', label: '日本語', path: getPathForLang('ja') },
+  { code: 'ko', label: '한국어', path: getPathForLang('ko') },
+];
+
+const currentLang = languages.find((l) => l.code === locale) ?? languages[0];
+const getFullUrl = (path: string) => `${baseUrl}${path}`;
+---
+
+<div class="lang-select-container" id="lang-select-root">
+  <button
+    type="button"
+    class="lang-select-btn"
+    aria-expanded="false"
+    aria-haspopup="true"
+    aria-label="Select language"
+    id="lang-select-trigger"
+  >
+    <svg class="globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+    <span class="lang-label">{currentLang.label}</span>
+    <svg class="chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <div class="lang-dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="lang-select-trigger" id="lang-dropdown-menu">
+    {languages.map((item) => (
+      <a
+        href={getFullUrl(item.path)}
+        class={`lang-menu-item ${item.code === locale ? 'is-active' : ''}`}
+        role="menuitem"
+        lang={item.code}
+        hreflang={item.code}
+      >
+        <span class="item-label">{item.label}</span>
+        {item.code === locale && (
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        )}
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .lang-select-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .lang-select-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    background: color-mix(in oklch, var(--ink-soft) 80%, transparent);
+    border: 1px solid color-mix(in oklch, var(--line) 75%, transparent);
+    border-radius: 9999px;
+    color: var(--mist);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: transform 180ms ease, border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .lang-select-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: oklch(26% 0.035 181);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px color-mix(in oklch, var(--accent) 18%, transparent);
+  }
+
+  .lang-select-btn .globe-icon {
+    color: var(--accent);
+  }
+
+  .lang-select-btn .chevron-icon {
+    transition: transform 200ms ease;
+  }
+
+  .lang-select-container.is-open .lang-select-btn .chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  .lang-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 140px;
+    padding: 0.4rem;
+    background: linear-gradient(145deg, oklch(22% 0.03 184 / 0.95), oklch(16% 0.02 184 / 0.98));
+    border: 1px solid color-mix(in oklch, var(--accent) 30%, var(--line));
+    border-radius: 12px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 20px color-mix(in oklch, var(--accent) 15%, transparent);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.96);
+    transition: opacity 200ms cubic-bezier(.16, 1, .3, 1), transform 200ms cubic-bezier(.16, 1, .3, 1), visibility 200ms ease;
+  }
+
+  .lang-select-container.is-open .lang-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  .lang-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    color: var(--mist);
+    font-size: 0.84rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .lang-menu-item:hover {
+    background: color-mix(in oklch, var(--accent) 18%, transparent);
+    color: var(--accent);
+  }
+
+  .lang-menu-item.is-active {
+    color: var(--accent);
+    font-weight: 700;
+    background: color-mix(in oklch, var(--accent) 14%, transparent);
+  }
+
+  .lang-menu-item .check-icon {
+    color: var(--accent);
+  }
+</style>
+
+<script>
+  const setupLangSelect = () => {
+    const root = document.getElementById('lang-select-root');
+    const trigger = document.getElementById('lang-select-trigger');
+    const menu = document.getElementById('lang-dropdown-menu');
+
+    if (!root || !trigger || !menu) return;
+
+    const toggleMenu = () => {
+      const isOpen = root.classList.contains('is-open');
+      if (isOpen) {
+        root.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      } else {
+        root.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    };
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target as Node)) {
+        root.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && root.classList.contains('is-open')) {
+        root.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    });
+  };
+
+  setupLangSelect();
+  document.addEventListener('astro:page-load', setupLangSelect);
+</script>

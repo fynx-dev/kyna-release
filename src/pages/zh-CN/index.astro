@@ -1,0 +1,6 @@
+---
+import LandingPage from '../../components/LandingPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { zhCN } from '../../i18n/zh-CN';
+---
+<BaseLayout locale={zhCN.locale} title={zhCN.seo.title} description={zhCN.seo.description} canonicalPath={zhCN.paths.home}><LandingPage copy={zhCN} /></BaseLayout>

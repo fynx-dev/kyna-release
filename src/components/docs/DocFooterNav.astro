@@ -1,0 +1,112 @@
+---
+export interface NavItem {
+  title: string;
+  link: string;
+}
+
+export interface Props {
+  prev?: NavItem;
+  next?: NavItem;
+  lang: string;
+}
+
+const { prev, next, lang } = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const langPrefix = lang === 'en' ? '' : `/${lang}`;
+
+function getFullUrl(link: string) {
+  const cleanLink = link.replace(/^\//, '').replace(/\/$/, '');
+  return `${baseUrl}${langPrefix}/docs/${cleanLink}/`;
+}
+
+const prevText: Record<string, string> = {
+  'en': 'Previous page',
+  'zh-CN': '上一页',
+  'ja': '前のページ',
+  'ko': '이전 페이지',
+};
+
+const nextText: Record<string, string> = {
+  'en': 'Next page',
+  'zh-CN': '下一页',
+  'ja': '次のページ',
+  'ko': '다음 페이지',
+};
+---
+
+<nav class="doc-footer-nav">
+  <div class="nav-slot nav-prev">
+    {prev && (
+      <a href={getFullUrl(prev.link)} class="nav-card">
+        <span class="nav-dir">← {prevText[lang] || 'Previous'}</span>
+        <span class="nav-title">{prev.title}</span>
+      </a>
+    )}
+  </div>
+
+  <div class="nav-slot nav-next">
+    {next && (
+      <a href={getFullUrl(next.link)} class="nav-card">
+        <span class="nav-dir">{nextText[lang] || 'Next'} →</span>
+        <span class="nav-title">{next.title}</span>
+      </a>
+    )}
+  </div>
+</nav>
+
+<style>
+  .doc-footer-nav {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid color-mix(in oklch, var(--line) 40%, transparent);
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  @media (max-width: 640px) {
+    .doc-footer-nav {
+      flex-direction: column;
+    }
+  }
+  .nav-slot {
+    flex: 1;
+  }
+  .nav-next {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .nav-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    background: var(--ink-soft);
+    border: 1px solid color-mix(in oklch, var(--line) 50%, transparent);
+    border-radius: 10px;
+    text-decoration: none;
+    width: 100%;
+    max-width: 18rem;
+    transition: all 180ms ease;
+  }
+  .nav-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .nav-dir {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    transition: color 150ms ease;
+  }
+  .nav-card:hover .nav-dir {
+    color: var(--accent);
+  }
+  .nav-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--mist);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

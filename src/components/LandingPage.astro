@@ -1,0 +1,559 @@
+---
+import type { LandingCopy } from '../i18n/types';
+import LanguageSelect from './LanguageSelect.astro';
+
+interface Props { copy: LandingCopy; }
+const { copy } = Astro.props;
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const route = (path: string) => asset(path);
+const releaseUrl = 'https://github.com/fynx-dev/kyna-release/releases/latest';
+const issuesUrl = 'https://github.com/fynx-dev/kyna-release/issues';
+---
+<a class="skip-link" href="#main">{copy.skip}</a>
+<header class="site-header">
+  <a class="brand" href={route(copy.paths.home)} aria-label="Kyna Player home"><img src={asset('assets/kyna-mark.svg')} alt="" width="30" height="30" /><span>Kyna Player</span></a>
+  <nav aria-label="Primary navigation">
+    <a href="#features">{copy.navigation.features}</a>
+    <a href={route(copy.paths.docs)}>{copy.navigation.docs}</a>
+    <a href={issuesUrl}>{copy.navigation.feedback}</a>
+    <LanguageSelect locale={copy.locale} />
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-copy reveal">
+      <p class="eyebrow">{copy.hero.eyebrow}</p>
+      {copy.badges && copy.badges.length > 0 && (
+        <div class="badge-group">
+          {copy.badges.map((badge) => (
+            <span class="pill-badge">{badge}</span>
+          ))}
+        </div>
+      )}
+      <h1 id="hero-title">{copy.hero.title}<br /><em>{copy.hero.accent}</em></h1>
+      <p class="hero-lead">{copy.hero.lead}</p>
+      <div class="hero-actions"><a class="button button-primary" href={releaseUrl}>{copy.hero.download}</a><a class="text-link" href="#features">{copy.hero.explore}</a></div>
+      <p class="quiet-note">{copy.hero.note}</p>
+    </div>
+    <div class="hero-stage reveal" aria-label={copy.hero.screenshotAlt ?? copy.features.playback.screenshotAlt}>
+      <div class="stage-topline"><span>{copy.hero.nowPlaying}</span><span>01—08</span></div>
+      <div class="screen-frame screen-hero has-image" data-shot={copy.hero.screenshot ?? "main.webp"} aria-label={copy.hero.screenshotAlt ?? copy.features.playback.screenshotAlt}>
+        <img src={asset(`assets/images/features/${copy.hero.screenshot ?? "main.webp"}`)} alt={copy.hero.screenshotAlt ?? copy.features.playback.screenshotAlt} loading="eager" decoding="async" />
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-band" aria-label="Product summary"><p>{copy.intro}</p></section>
+
+  {copy.highlights && copy.highlights.length > 0 && (
+    <section class="bento-section reveal" aria-label="Core highlights">
+      <div class="bento-grid">
+        {copy.highlights.map((item) => (
+          <div class="bento-card">
+            <span class="bento-icon">{item.icon}</span>
+            <span class="bento-tag">{item.tag}</span>
+            <h3 class="bento-title">{item.title}</h3>
+            <p class="bento-desc">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+  <div id="features" class="feature-sequence">
+    
+    <!-- 01 极简播放 (Playback) -->
+    <section class="feature feature-playback" aria-labelledby="playback-title">
+      <div class="feature-number" aria-hidden="true">{copy.features.playback.number}</div>
+      <div class="feature-copy reveal"><p class="eyebrow">{copy.features.playback.eyebrow}</p><h2 id="playback-title">{copy.features.playback.title}</h2><p>{copy.features.playback.body}</p></div>
+      <div class="feature-visual reveal">
+        <div class="screen-frame has-image" data-shot={copy.features.playback.screenshot} aria-label={copy.features.playback.screenshotAlt}>
+          <img src={asset(`assets/images/features/${copy.features.playback.screenshot}`)} alt={copy.features.playback.screenshotAlt} loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 进度缩略图 (Timeline Thumbnails) -->
+    <section class="feature feature-thumbnails" aria-labelledby="thumbnails-title">
+      <div class="feature-number" aria-hidden="true">{copy.features.thumbnails.number}</div>
+      <div class="feature-copy reveal"><p class="eyebrow">{copy.features.thumbnails.eyebrow}</p><h2 id="thumbnails-title">{copy.features.thumbnails.title}</h2><p>{copy.features.thumbnails.body}</p></div>
+      <div class="feature-visual reveal">
+        <div class="screen-frame has-image" data-shot={copy.features.thumbnails.screenshot} aria-label={copy.features.thumbnails.screenshotAlt}>
+          <img src={asset(`assets/images/features/${copy.features.thumbnails.screenshot}`)} alt={copy.features.thumbnails.screenshotAlt} loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 播放列表 (Library) -->
+    <section class="feature feature-library" aria-labelledby="library-title">
+      <div class="feature-number" aria-hidden="true">{copy.features.library.number}</div>
+      <div class="feature-copy reveal"><p class="eyebrow">{copy.features.library.eyebrow}</p><h2 id="library-title">{copy.features.library.title}</h2><p>{copy.features.library.body}</p></div>
+      <div class="feature-visual reveal">
+        <div class="screen-frame has-image" data-shot={copy.features.library.screenshot} aria-label={copy.features.library.screenshotAlt}>
+          <img src={asset(`assets/images/features/${copy.features.library.screenshot}`)} alt={copy.features.library.screenshotAlt} loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 播放设置 (Settings - 3 Tab Deck) -->
+    <section class="feature feature-settings" aria-labelledby="settings-title" data-deck-section="settings">
+      <div class="feature-number" aria-hidden="true">{copy.features.settings.number}</div>
+      <div class="feature-copy reveal">
+        <p class="eyebrow">{copy.features.settings.eyebrow}</p>
+        <h2 id="settings-title">{copy.features.settings.title}</h2>
+        <p>{copy.features.settings.body}</p>
+        <div class="settings-nav" role="tablist" aria-label={copy.features.settings.eyebrow}>
+          {Object.values(copy.features.settings.tabs).map((tab, idx) => (
+            <button
+              type="button"
+              class={`settings-tab-btn ${idx === 0 ? 'is-active' : ''}`}
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              tabindex={idx === 0 ? '0' : '-1'}
+              data-deck-tab={tab.id}
+            >
+              <span class="tab-label">{tab.label}</span>
+              <small class="tab-hint">{tab.hint}</small>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="feature-visual settings-visual reveal">
+        <div class="deck-stage deck-stage-settings" aria-label={copy.features.settings.title}>
+          <div class="card-deck card-deck-settings">
+            {Object.values(copy.features.settings.tabs).map((tab, idx) => (
+              <div
+                class={`deck-card ${idx === 0 ? 'is-top' : idx === 1 ? 'is-middle' : 'is-bottom'}`}
+                data-card-id={tab.id}
+                role="button"
+                tabindex="0"
+                aria-label={tab.screenshotAlt}
+              >
+                <div class="card-badge"><span>{tab.label}</span></div>
+                <img
+                  src={asset(`assets/images/features/${tab.screenshot}`)}
+                  alt={tab.screenshotAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature feature-enhancement" aria-labelledby="enhancement-title">
+      <div class="feature-copy reveal">
+        <p class="eyebrow">{copy.features.enhancement.eyebrow}</p>
+        <h2 id="enhancement-title">{copy.features.enhancement.title}</h2>
+        <p>{copy.features.enhancement.body}</p>
+      </div>
+      <div class="feature-visual enhancement-visual reveal" data-enhancement-section>
+        <div class="enhancement-tabs" role="tablist" aria-label={copy.features.enhancement.eyebrow}>
+          {[
+            { id: 'dlss', label: 'DLSS 5' },
+            { id: 'anime4k', label: 'Anime4K' }
+          ].map(({ id, label }, index) => (
+            <button type="button" class:list={['enhancement-tab', { 'is-active': index === 0 }]} role="tab" aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? 0 : -1} data-enhancement-tab={id}>
+              {label}
+            </button>
+          ))}
+        </div>
+        {[
+          { id: 'dlss', card: copy.features.enhancement.cards.dlss, original: 's1-1.png', enhanced: 's1-2.png' },
+          { id: 'anime4k', card: copy.features.enhancement.cards.anime4k, original: 's2-1.png', enhanced: 's2-2.png' }
+        ].map(({ id, card, original, enhanced }, index) => (
+          <article class="image-comparison-card" role="tabpanel" data-enhancement-panel={id} hidden={index !== 0}>
+            <div class="comparison-card-header">
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </div>
+            <div class="image-comparison" data-image-comparison style="--split: 50%;">
+              <img class="comparison-original" src={asset(`assets/images/features/${original}`)} alt={card.originalAlt} loading="lazy" decoding="async" />
+              <div class="comparison-enhanced" aria-hidden="true">
+                <img src={asset(`assets/images/features/${enhanced}`)} alt="" loading="lazy" decoding="async" />
+              </div>
+              <span class="comparison-label comparison-label-original">{card.originalLabel}</span>
+              <span class="comparison-label comparison-label-enhanced">{card.title}</span>
+              <button class="comparison-handle" type="button" role="slider" aria-label={card.sliderLabel} aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <span aria-hidden="true">↔</span>
+              </button>
+            </div>
+          </article>
+        ))}
+        <p class="comparison-demo-caption">{copy.features.enhancement.demoCaption}</p>
+      </div>
+    </section>
+
+    <!-- 05 字幕工具 (Subtitles - 2 Tab Deck) -->
+    <section class="feature feature-subtitles" aria-labelledby="subtitles-title" data-deck-section="subtitles">
+      <div class="feature-number" aria-hidden="true">{copy.features.subtitles.number}</div>
+      <div class="feature-copy reveal">
+        <p class="eyebrow">{copy.features.subtitles.eyebrow}</p>
+        <h2 id="subtitles-title">{copy.features.subtitles.title}</h2>
+        <p>{copy.features.subtitles.body}</p>
+        <div class="settings-nav nav-two-tabs" role="tablist" aria-label={copy.features.subtitles.eyebrow}>
+          {Object.values(copy.features.subtitles.tabs).map((tab, idx) => (
+            <button
+              type="button"
+              class={`settings-tab-btn ${idx === 0 ? 'is-active' : ''}`}
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              tabindex={idx === 0 ? '0' : '-1'}
+              data-deck-tab={tab.id}
+            >
+              <span class="tab-label">{tab.label}</span>
+              <small class="tab-hint">{tab.hint}</small>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="feature-visual subtitles-visual reveal">
+        <div class="deck-stage deck-stage-subtitles" aria-label={copy.features.subtitles.title}>
+          <div class="card-deck card-deck-subtitles">
+            {Object.values(copy.features.subtitles.tabs).map((tab, idx) => (
+              <div
+                class={`deck-card ${idx === 0 ? 'is-top' : 'is-middle'}`}
+                data-card-id={tab.id}
+                role="button"
+                tabindex="0"
+                aria-label={tab.screenshotAlt}
+              >
+                <div class="card-badge"><span>{tab.label}</span></div>
+                <img
+                  src={asset(`assets/images/features/${tab.screenshot}`)}
+                  alt={tab.screenshotAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 无线投放 (Casting - 2 Tab Deck) -->
+    <section class="feature feature-casting" aria-labelledby="casting-title" data-deck-section="casting">
+      <div class="feature-number" aria-hidden="true">{copy.features.casting.number}</div>
+      <div class="feature-copy reveal">
+        <p class="eyebrow">{copy.features.casting.eyebrow}</p>
+        <h2 id="casting-title">{copy.features.casting.title}</h2>
+        <p>{copy.features.casting.body}</p>
+        <div class="settings-nav nav-two-tabs" role="tablist" aria-label={copy.features.casting.eyebrow}>
+          {Object.values(copy.features.casting.tabs).map((tab, idx) => (
+            <button
+              type="button"
+              class={`settings-tab-btn ${idx === 0 ? 'is-active' : ''}`}
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              tabindex={idx === 0 ? '0' : '-1'}
+              data-deck-tab={tab.id}
+            >
+              <span class="tab-label">{tab.label}</span>
+              <small class="tab-hint">{tab.hint}</small>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="feature-visual casting-visual reveal">
+        <div class="deck-stage deck-stage-casting" aria-label={copy.features.casting.title}>
+          <div class="card-deck card-deck-casting">
+            {Object.values(copy.features.casting.tabs).map((tab, idx) => (
+              <div
+                class={`deck-card ${idx === 0 ? 'is-top' : 'is-middle'}`}
+                data-card-id={tab.id}
+                role="button"
+                tabindex="0"
+                aria-label={tab.screenshotAlt}
+              >
+                <div class="card-badge"><span>{tab.label}</span></div>
+                <img
+                  src={asset(`assets/images/features/${tab.screenshot}`)}
+                  alt={tab.screenshotAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 灵活播放 (Flexibility) -->
+    <section class="feature feature-flexibility" aria-labelledby="flexibility-title">
+      <div class="feature-number" aria-hidden="true">{copy.features.flexibility.number}</div>
+      <div class="feature-copy reveal"><p class="eyebrow">{copy.features.flexibility.eyebrow}</p><h2 id="flexibility-title">{copy.features.flexibility.title}</h2><p>{copy.features.flexibility.body}</p></div>
+      <div class="feature-visual reveal">
+        <div class="screen-frame has-image" data-shot={copy.features.flexibility.screenshot} aria-label={copy.features.flexibility.screenshotAlt}>
+          <img src={asset(`assets/images/features/${copy.features.flexibility.screenshot}`)} alt={copy.features.flexibility.screenshotAlt} loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 杜比视界 (HDR & Dolby Vision) -->
+    <section class="feature feature-hdr" aria-labelledby="hdr-title">
+      <div class="feature-number" aria-hidden="true">{copy.features.hdr.number}</div>
+      <div class="feature-copy reveal"><p class="eyebrow">{copy.features.hdr.eyebrow}</p><h2 id="hdr-title">{copy.features.hdr.title}</h2><p>{copy.features.hdr.body}</p></div>
+      <div class="feature-visual reveal">
+        <div class="screen-frame has-image" data-shot={copy.features.hdr.screenshot} aria-label={copy.features.hdr.screenshotAlt}>
+          <img src={asset(`assets/images/features/${copy.features.hdr.screenshot}`)} alt={copy.features.hdr.screenshotAlt} loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="install" id="install" aria-labelledby="install-title"><p class="eyebrow">{copy.install.eyebrow}</p><h2 id="install-title">{copy.install.title}</h2><p>{copy.install.body}</p><div class="install-actions"><a class="button button-primary" href={releaseUrl}>{copy.install.download}</a><a class="text-link" href={route(copy.paths.install)}>{copy.install.guide}</a></div></section>
+</main>
+<footer class="site-footer"><a class="brand" href="#top"><img src={asset('assets/kyna-mark.svg')} alt="" width="25" height="25" /><span>Kyna Player</span></a><p>{copy.footer}</p><a href={issuesUrl}>{copy.navigation.feedback}</a></footer>
+
+<!-- 全局原图预览 Lightbox 模态框 -->
+<div id="image-lightbox" class="lightbox-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="图片原图预览">
+  <div class="lightbox-backdrop" data-lightbox-close></div>
+  <div class="lightbox-content">
+    <button type="button" class="lightbox-close-btn" data-lightbox-close aria-label="关闭预览">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="lightbox-image-wrapper">
+      <img id="lightbox-img" src="" alt="" />
+    </div>
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+  const assetBase = import.meta.env.BASE_URL;
+
+  // --- Lightbox 核心控制器 ---
+  const lightboxModal = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const lightboxCaption = document.getElementById('lightbox-caption');
+
+  const openLightbox = (src: string, alt: string) => {
+    if (!lightboxModal || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    if (lightboxCaption) lightboxCaption.textContent = alt || '';
+    lightboxModal.classList.add('is-open');
+    lightboxModal.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    if (!lightboxModal || !lightboxImg) return;
+    lightboxModal.classList.remove('is-open');
+    lightboxModal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    // 动画结束后清空
+    setTimeout(() => {
+      if (!lightboxModal.classList.contains('is-open')) {
+        lightboxImg.src = '';
+      }
+    }, 280);
+  };
+
+  if (lightboxModal) {
+    lightboxModal.querySelectorAll('[data-lightbox-close]').forEach((btn) => {
+      btn.addEventListener('click', closeLightbox);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('is-open')) {
+        closeLightbox();
+      }
+    });
+  }
+
+  // --- 绑定普通独立单图（Hero 及 01, 02, 03, 07）点击原图预览 ---
+  document.querySelectorAll<HTMLElement>('.hero-stage .screen-frame, .feature:not([data-deck-section]) .screen-frame').forEach((frame) => {
+    frame.setAttribute('role', 'button');
+    frame.setAttribute('tabindex', '0');
+    frame.setAttribute('title', '点击查看原图');
+    const triggerPreview = () => {
+      const img = frame.querySelector('img');
+      if (img && img.src) openLightbox(img.src, img.alt);
+    };
+    frame.addEventListener('click', triggerPreview);
+    frame.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerPreview();
+      }
+    });
+  });
+
+  // --- 占位图懒加载处理 ---
+  document.querySelectorAll<HTMLElement>('[data-shot]').forEach((frame) => {
+    if (frame.querySelector('img')) return;
+    const image = new Image();
+    image.alt = frame.getAttribute('aria-label') ?? '';
+    image.decoding = 'async';
+    image.loading = 'lazy';
+    image.src = `${assetBase}assets/images/features/${frame.dataset.shot}`;
+    image.addEventListener('load', () => { frame.replaceChildren(image); frame.classList.add('has-image'); });
+  });
+
+  // --- 扑克牌 Deck 交互与卡片分流控制 ---
+  document.querySelectorAll<HTMLElement>('[data-deck-section]').forEach((section) => {
+    const tabs = [...section.querySelectorAll<HTMLButtonElement>('[data-deck-tab]')];
+    const cards = [...section.querySelectorAll<HTMLElement>('[data-card-id]')];
+    const tabOrder = tabs.map((t) => t.dataset.deckTab ?? '');
+
+    const updateSectionDeck = (activeId: string) => {
+      const activeIndex = tabOrder.indexOf(activeId);
+      if (activeIndex === -1) return;
+
+      tabs.forEach((tab) => {
+        const isSelected = tab.dataset.deckTab === activeId;
+        tab.classList.toggle('is-active', isSelected);
+        tab.setAttribute('aria-selected', String(isSelected));
+        tab.tabIndex = isSelected ? 0 : -1;
+      });
+
+      cards.forEach((card) => {
+        const cardId = card.dataset.cardId ?? '';
+        const cardIndex = tabOrder.indexOf(cardId);
+        if (cardIndex === -1) return;
+        const rank = (cardIndex - activeIndex + tabOrder.length) % tabOrder.length;
+        card.classList.remove('is-top', 'is-middle', 'is-bottom');
+        if (rank === 0) {
+          card.classList.add('is-top');
+          card.setAttribute('aria-current', 'true');
+          card.setAttribute('title', '点击查看原图');
+        } else if (rank === 1) {
+          card.classList.add('is-middle');
+          card.removeAttribute('aria-current');
+          card.setAttribute('title', '点击切换到此卡片');
+        } else {
+          card.classList.add('is-bottom');
+          card.removeAttribute('aria-current');
+          card.setAttribute('title', '点击切换到此卡片');
+        }
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.deckTab;
+        if (id) updateSectionDeck(id);
+      });
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowUp' || event.key === 'ArrowLeft' ? -1 : 1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+        const nextId = tabs[next].dataset.deckTab;
+        if (nextId) updateSectionDeck(nextId);
+      });
+    });
+
+    cards.forEach((card) => {
+      const handleCardAction = () => {
+        const id = card.dataset.cardId;
+        // 如果是当前置顶的高亮卡片，点击打开 Lightbox 预览原图
+        if (card.classList.contains('is-top')) {
+          const img = card.querySelector('img');
+          if (img && img.src) openLightbox(img.src, img.alt);
+        } else {
+          // 如果是非当前卡片，点击切换到前台
+          if (id) updateSectionDeck(id);
+        }
+      };
+
+      card.addEventListener('click', handleCardAction);
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleCardAction();
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-image-comparison]').forEach((comparison) => {
+    const handle = comparison.querySelector<HTMLButtonElement>('.comparison-handle');
+    if (!handle) return;
+    let activePointerId: number | null = null;
+
+    const setSplit = (value: number) => {
+      const split = Math.round(Math.min(100, Math.max(0, value)));
+      comparison.style.setProperty('--split', `${split}%`);
+      handle.setAttribute('aria-valuenow', String(split));
+    };
+    const setSplitFromPointer = (event: PointerEvent) => {
+      const bounds = comparison.getBoundingClientRect();
+      setSplit(((event.clientX - bounds.left) / bounds.width) * 100);
+    };
+
+    comparison.addEventListener('pointerdown', (event) => {
+      activePointerId = event.pointerId;
+      comparison.setPointerCapture(event.pointerId);
+      setSplitFromPointer(event);
+      handle.focus();
+    });
+    comparison.addEventListener('pointermove', (event) => {
+      if (event.pointerId === activePointerId) setSplitFromPointer(event);
+    });
+    comparison.addEventListener('pointerup', (event) => {
+      if (event.pointerId === activePointerId) activePointerId = null;
+    });
+    comparison.addEventListener('pointercancel', () => { activePointerId = null; });
+    handle.addEventListener('keydown', (event) => {
+      const current = Number(handle.getAttribute('aria-valuenow') ?? '50');
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+        event.preventDefault(); setSplit(current - 5);
+      } else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+        event.preventDefault(); setSplit(current + 5);
+      } else if (event.key === 'Home') {
+        event.preventDefault(); setSplit(0);
+      } else if (event.key === 'End') {
+        event.preventDefault(); setSplit(100);
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-enhancement-section]').forEach((section) => {
+    const tabs = [...section.querySelectorAll<HTMLButtonElement>('[data-enhancement-tab]')];
+    const panels = [...section.querySelectorAll<HTMLElement>('[data-enhancement-panel]')];
+    const activate = (id: string) => {
+      tabs.forEach((tab) => {
+        const selected = tab.dataset.enhancementTab === id;
+        tab.classList.toggle('is-active', selected);
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        const selected = panel.dataset.enhancementPanel === id;
+        panel.hidden = !selected;
+        if (selected) {
+          const comparison = panel.querySelector<HTMLElement>('[data-image-comparison]');
+          const handle = comparison?.querySelector<HTMLButtonElement>('.comparison-handle');
+          comparison?.style.setProperty('--split', '50%');
+          handle?.setAttribute('aria-valuenow', '50');
+        }
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(tab.dataset.enhancementTab ?? 'dlss'));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowLeft' ? -1 : 1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+        activate(tabs[next].dataset.enhancementTab ?? 'dlss');
+      });
+    });
+  });
+
+  const elements = document.querySelectorAll<HTMLElement>('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: 0.12 });
+    elements.forEach((element) => observer.observe(element));
+  } else elements.forEach((element) => element.classList.add('is-visible'));
+</script>

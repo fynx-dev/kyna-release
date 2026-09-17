@@ -1,0 +1,63 @@
+---
+import { getCollection, render } from 'astro:content';
+import DocLayout from '../../../layouts/DocLayout.astro';
+import { docsSidebar } from '../../../config/docs-sidebar';
+
+export async function getStaticPaths() {
+  const allDocs = await getCollection('docs');
+  const languages = ['zh-CN', 'ja', 'ko'];
+  const paths: any[] = [];
+
+  for (const lang of languages) {
+    const langDocs = allDocs.filter((doc) => doc.id.startsWith(`${lang}/`) || (doc.slug && doc.slug.startsWith(`${lang}/`)));
+
+    const getCleanSlug = (d: any) => {
+      const raw = d.slug || d.id.replace(/\.mdx?$/, '');
+      return raw.replace(new RegExp(`^${lang}/`), '');
+    };
+
+    for (const doc of langDocs) {
+      const cleanSlug = getCleanSlug(doc);
+      paths.push({
+        params: { lang, slug: cleanSlug },
+        props: { doc, lang, cleanSlug },
+      });
+    }
+
+    const indexDoc = langDocs.find((doc) => getCleanSlug(doc) === 'getting-started') || langDocs[0];
+    if (indexDoc) {
+      paths.push({
+        params: { lang, slug: undefined },
+        props: { doc: indexDoc, lang, cleanSlug: 'getting-started' },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { doc, lang, cleanSlug } = Astro.props;
+const { Content, headings } = await render(doc);
+
+// Calculate pagination prev/next from docsSidebar[lang]
+const sidebarGroups = docsSidebar[lang] || [];
+const flatItems = sidebarGroups.flatMap((g) => g.items);
+const currentIndex = flatItems.findIndex((item) => item.link === cleanSlug);
+
+const prev = currentIndex > 0 ? flatItems[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 && currentIndex < flatItems.length - 1 ? flatItems[currentIndex + 1] : undefined;
+---
+
+<DocLayout
+  title={doc.data.title}
+  description={doc.data.description}
+  lang={lang}
+  currentSlug={cleanSlug}
+  headings={headings}
+  group={doc.data.group}
+  prev={prev}
+  next={next}
+  canonicalPath={`/${lang}/docs/${cleanSlug}/`}
+>
+  <Content />
+</DocLayout>

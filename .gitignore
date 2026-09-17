@@ -1,0 +1,8 @@
+.superpowers/
+.impeccable.md
+task_plan.md
+findings.md
+progress.md
+node_modules/
+dist/
+.astro/

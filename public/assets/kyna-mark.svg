@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none">
+  <title>Kyna Player 24px icon</title>
+  <desc>Compact transparent player icon with a teal open ring and play button.</desc>
+  <!-- 270° ring: the 90° opening is centered precisely on the right. -->
+  <path d="M18.01 5.99A8.5 8.5 0 1 0 18.01 18.01" stroke="#14C7B8" stroke-width="2.2" stroke-linecap="butt"/>
+  <!-- Short accent arc, separated from the long ring at both ends. -->
+  <path d="M19.57 8.14A8.5 8.5 0 0 1 19.57 15.86" stroke="#8CF8F0" stroke-width="2.2" stroke-linecap="butt"/>
+  <!-- Slightly enlarged equilateral play triangle with rounded corners. -->
+  <path d="M10.626 8.975Q10.15 8.7 10.15 9.25V14.75Q10.15 15.3 10.626 15.025L15.39 12.275Q15.866 12 15.39 11.725Z" fill="#35DED0"/>
+</svg>

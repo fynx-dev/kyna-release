@@ -1,0 +1,6 @@
+---
+import LandingPage from '../../components/LandingPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ja } from '../../i18n/ja';
+---
+<BaseLayout locale={ja.locale} title={ja.seo.title} description={ja.seo.description} canonicalPath={ja.paths.home}><LandingPage copy={ja} /></BaseLayout>

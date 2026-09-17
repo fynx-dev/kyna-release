@@ -1,30 +1,32 @@
-# Windows 安装与升级
+# Install and update Kyna on Windows
 
-## 安装
+## Install
 
-1. 在 [Releases](../../releases) 下载 `Kyna-vX.Y.Z-windows-x64.zip` 和同一 release 的 `SHA256SUMS`。
-2. 在 PowerShell 中校验下载文件：
+1. Download `Kyna-vX.Y.Z-windows-x64.exe` and the matching `SHA256SUMS` file from [Releases](../../releases).
+2. Verify the download in PowerShell:
 
    ```powershell
-   Get-FileHash .\Kyna-vX.Y.Z-windows-x64.zip -Algorithm SHA256
+   Get-FileHash .\Kyna-vX.Y.Z-windows-x64.exe -Algorithm SHA256
    Get-Content .\SHA256SUMS
    ```
 
-   两个 SHA-256 值必须一致。
-3. 将 ZIP 解压到用户有写权限的目录，例如 `%LOCALAPPDATA%\Programs\Kyna`。不要直接在 ZIP 内运行。
-4. 运行 `kyna_player.exe`。播放器、字幕 sidecar 和 Whisper worker 必须保留在同一个解压目录及其 `whisper\` 子目录中。
+   The SHA-256 values must match.
+3. Run the installer. You can change the installation directory in the setup wizard.
+4. Start Kyna from the Start menu or by running `kyna_player.exe` in the installation directory.
 
-## 首次使用
+Keep the player, subtitle service, Whisper worker, and providers in their installed locations. Do not mix files from different Kyna versions.
 
-安装包不包含 Whisper 模型或示例媒体。首次生成字幕前，请在应用内导入兼容的模型，或通过应用提供的下载流程取得模型。模型保存在用户数据目录，不会写入安装目录。
+## First use
 
-## 升级
+The installer does not include Whisper models or sample media. Before creating subtitles, import a compatible model in the app or use the app's model-download flow. Models are stored in your user data directory, not the installation directory.
 
-1. 退出 Kyna。
-2. 解压新版本到一个新目录，或替换旧安装目录中的全部文件。
-3. 保留用户数据目录；已导入模型和应用设置不随 ZIP 删除。
-4. 不要把不同版本的 `kyna_player.exe`、`kyna_subtitle.exe`、DLL 或 `whisper\whisper-cli.exe` 混用。
+## Update and uninstall
 
-## 报错与反馈
+1. Exit Kyna.
+2. Run the newer installer and keep the same installation directory to update the app.
+3. Your imported models and app settings remain in your user data directory.
+4. To uninstall Kyna, use Windows Installed Apps or the Start menu uninstall entry.
 
-提交 issue 时请附上 Kyna 版本、Windows 版本、复现步骤和已隐藏个人信息的日志。不要公开 API key、访问 token、私有媒体路径或安全漏洞。
+## Getting help
+
+When reporting an issue, include your Kyna version, Windows version, reproduction steps, and redacted logs. Never post API keys, access tokens, private media paths, or security vulnerabilities publicly.

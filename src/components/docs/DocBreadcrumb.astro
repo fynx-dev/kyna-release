@@ -1,0 +1,70 @@
+---
+export interface Props {
+  lang: string;
+  group?: string;
+  title: string;
+}
+const { lang, group, title } = Astro.props;
+
+const homePrefix = lang === 'en' ? '' : `/${lang}`;
+const docsPrefix = `${homePrefix}/docs/`;
+
+const docsHomeText: Record<string, string> = {
+  'en': 'Docs',
+  'zh-CN': '文档中心',
+  'ja': 'ドキュメント',
+  'ko': '문서 센터',
+};
+---
+
+<nav aria-label="Breadcrumb" class="doc-breadcrumb">
+  <ol>
+    <li>
+      <a href={import.meta.env.BASE_URL.replace(/\/$/, '') + docsPrefix}>
+        {docsHomeText[lang] || 'Docs'}
+      </a>
+    </li>
+    {group && (
+      <>
+        <li class="separator">/</li>
+        <li class="group-label">{group}</li>
+      </>
+    )}
+    <li class="separator">/</li>
+    <li class="current-title">{title}</li>
+  </ol>
+</nav>
+
+<style>
+  .doc-breadcrumb ol {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.85rem;
+  }
+  .doc-breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .doc-breadcrumb a:hover {
+    color: var(--accent);
+  }
+  .doc-breadcrumb .separator {
+    color: var(--line);
+  }
+  .doc-breadcrumb .group-label {
+    color: var(--muted);
+  }
+  .doc-breadcrumb .current-title {
+    color: var(--accent);
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
+  }
+</style>

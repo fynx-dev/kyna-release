@@ -1,0 +1,143 @@
+---
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+export interface Props {
+  headings: Heading[];
+  lang: string;
+}
+
+const { headings, lang } = Astro.props;
+const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const tocTitles: Record<string, string> = {
+  'en': 'On this page',
+  'zh-CN': '本页导航',
+  'ja': 'このページの内容',
+  'ko': '이 페이지의 목차',
+};
+---
+
+{filteredHeadings.length > 0 && (
+  <nav class="doc-toc-wrapper" aria-label="Table of contents">
+    <div class="toc-title">
+      {tocTitles[lang] || 'On this page'}
+    </div>
+    <ul class="toc-list">
+      {filteredHeadings.map((h) => (
+        <li class={h.depth === 3 ? 'depth-3' : 'depth-2'}>
+          <a href={`#${h.slug}`} data-toc-link={h.slug} class="toc-link">
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  function setupTocHighlight() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-80px 0px -60% 0px',
+      threshold: 0,
+    };
+
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+    if (!tocLinks.length) return;
+
+    const headingElements: HTMLElement[] = [];
+    tocLinks.forEach((link) => {
+      const slug = link.getAttribute('data-toc-link');
+      if (slug) {
+        const el = document.getElementById(slug);
+        if (el) headingElements.push(el);
+      }
+    });
+
+    let activeLink: HTMLAnchorElement | null = null;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          tocLinks.forEach((link) => {
+            if (link.getAttribute('data-toc-link') === id) {
+              if (activeLink) {
+                activeLink.classList.remove('is-active');
+              }
+              link.classList.add('is-active');
+              activeLink = link;
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    headingElements.forEach((el) => observer.observe(el));
+  }
+
+  document.addEventListener('DOMContentLoaded', setupTocHighlight);
+</script>
+
+<style>
+  .doc-toc-wrapper {
+    width: 14rem;
+    flex-shrink: 0;
+    position: sticky;
+    top: 3.75rem;
+    align-self: flex-start;
+    height: calc(100vh - 3.75rem);
+    overflow-y: auto;
+    padding: 2.25rem 0 3rem 1.25rem;
+    font-size: 0.82rem;
+  }
+  @media (max-width: 1100px) {
+    .doc-toc-wrapper {
+      display: none;
+    }
+  }
+  .toc-title {
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid color-mix(in oklch, var(--line) 40%, transparent);
+  }
+  .toc-list li {
+    margin: 0;
+  }
+  .toc-list li.depth-3 {
+    padding-left: 0.85rem;
+  }
+  .toc-link {
+    display: block;
+    padding: 0.35rem 0 0.35rem 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+    transition: all 150ms ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .toc-link:hover {
+    color: var(--mist);
+  }
+  .toc-link.is-active {
+    color: var(--accent);
+    font-weight: 600;
+    border-left-color: var(--accent);
+  }
+</style>

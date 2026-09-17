@@ -1,0 +1,73 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  locale: string;
+  title: string;
+  description: string;
+  canonicalPath: string;
+}
+
+const { locale, title, description, canonicalPath } = Astro.props;
+const baseUrl = 'https://fynx-dev.github.io/kyna-release';
+const canonical = `${baseUrl}${canonicalPath}`;
+const imageUrl = `${baseUrl}/assets/images/features/main.webp`;
+
+const isInstall = canonicalPath.includes('/install');
+const langPaths = {
+  en: isInstall ? '/install/' : '/',
+  'zh-CN': isInstall ? '/zh-CN/install/' : '/zh-CN/',
+  ja: isInstall ? '/ja/install/' : '/ja/',
+  ko: isInstall ? '/ko/install/' : '/ko/',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Kyna Player',
+  operatingSystem: 'Windows 10, Windows 11',
+  applicationCategory: 'MultimediaApplication',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  description: description,
+  downloadUrl: 'https://github.com/fynx-dev/kyna-release/releases/latest',
+  softwareVersion: '0.1.0',
+  inLanguage: ['en', 'zh-CN', 'ja', 'ko'],
+  image: imageUrl,
+  url: canonical,
+};
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b1617" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}assets/kyna-mark.svg`} type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={`${baseUrl}${langPaths.en}`} />
+    <link rel="alternate" hreflang="zh-CN" href={`${baseUrl}${langPaths['zh-CN']}`} />
+    <link rel="alternate" hreflang="ja" href={`${baseUrl}${langPaths.ja}`} />
+    <link rel="alternate" hreflang="ko" href={`${baseUrl}${langPaths.ko}`} />
+    <link rel="alternate" hreflang="x-default" href={`${baseUrl}/`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kyna Player" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content="Kyna Player Interface" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

@@ -42,33 +42,43 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           New-Item -ItemType Directory -Path assets | Out-Null
-          gh release download $env:RELEASE_TAG --repo $env:GH_REPO --dir assets --pattern "Kyna-$env:RELEASE_TAG-windows-x64.zip" --pattern SHA256SUMS
+          gh release download $env:RELEASE_TAG --repo $env:GH_REPO --dir assets --pattern "Kyna-$env:RELEASE_TAG-windows-x64.exe" --pattern SHA256SUMS
 
-      - name: Verify checksum and archive layout
+      - name: Verify checksum and installer layout
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $expectedArchive = "Kyna-$env:RELEASE_TAG-windows-x64.zip"
+          $expectedInstaller = "Kyna-$env:RELEASE_TAG-windows-x64.exe"
           $actualAssets = @(Get-ChildItem -LiteralPath assets -File | Select-Object -ExpandProperty Name | Sort-Object)
-          $expectedAssets = @($expectedArchive, 'SHA256SUMS') | Sort-Object
+          $expectedAssets = @($expectedInstaller, 'SHA256SUMS') | Sort-Object
           if (@(Compare-Object -ReferenceObject $expectedAssets -DifferenceObject $actualAssets).Count -ne 0) {
             throw "Draft assets must be exactly $($expectedAssets -join ', '); got $($actualAssets -join ', ')."
           }
 
-          $archive = Join-Path assets $expectedArchive
+          $installer = Join-Path assets $expectedInstaller
           $expectedChecksum = (Get-Content -LiteralPath (Join-Path assets SHA256SUMS) -Raw).Trim()
-          $actualChecksum = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($expectedChecksum -ne "$actualChecksum *$expectedArchive") {
-            throw 'SHA256SUMS does not match the release archive.'
+          $actualChecksum = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($expectedChecksum -ne "$actualChecksum *$expectedInstaller") {
+            throw 'SHA256SUMS does not match the release installer.'
           }
 
-          Expand-Archive -LiteralPath $archive -DestinationPath extracted -Force
+          $extractDirectory = Join-Path $PWD 'extracted'
+          $install = Start-Process -FilePath $installer -ArgumentList @(
+            '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', "/DIR=$extractDirectory"
+          ) -Wait -PassThru
+          if ($install.ExitCode -ne 0) {
+            throw "Release installer exited with $($install.ExitCode)."
+          }
           foreach ($path in @('kyna_player.exe', 'kyna_subtitle.exe', 'whisper\whisper-cli.exe', 'providers')) {
-            if (-not (Test-Path -LiteralPath (Join-Path extracted $path))) {
-              throw "Release archive is missing $path."
+            $installedPath = Join-Path $extractDirectory $path
+            if (-not (Test-Path -LiteralPath $installedPath)) {
+              throw "Release installer is missing $path."
+            }
+            if ((Get-Item -LiteralPath $installedPath).PSIsContainer -and -not @(Get-ChildItem -LiteralPath $installedPath -Force | Select-Object -First 1)) {
+              throw "Release installer contains an empty $path."
             }
           }
-          & (Join-Path extracted 'kyna_subtitle.exe') --version
+          & (Join-Path $extractDirectory 'kyna_subtitle.exe') --version
           if ($LASTEXITCODE -ne 0) {
             throw "Packaged kyna_subtitle.exe --version exited with $LASTEXITCODE."
           }

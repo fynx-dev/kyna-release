@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fynx-dev.github.io/kyna-release/sitemap-index.xml

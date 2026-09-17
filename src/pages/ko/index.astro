@@ -1,0 +1,14 @@
+---
+import LandingPage from '../../components/LandingPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ko } from '../../i18n/ko';
+---
+
+<BaseLayout
+  locale={ko.locale}
+  title={ko.seo.title}
+  description={ko.seo.description}
+  canonicalPath={ko.paths.home}
+>
+  <LandingPage copy={ko} />
+</BaseLayout>
