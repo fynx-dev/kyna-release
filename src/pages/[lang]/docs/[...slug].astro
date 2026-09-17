@@ -9,11 +9,12 @@ export async function getStaticPaths() {
   const paths: any[] = [];
 
   for (const lang of languages) {
-    const langDocs = allDocs.filter((doc) => doc.id.startsWith(`${lang}/`) || (doc.slug && doc.slug.startsWith(`${lang}/`)));
+    const contentLang = lang.toLowerCase();
+    const langDocs = allDocs.filter((doc) => doc.id.startsWith(`${contentLang}/`) || (doc.slug && doc.slug.startsWith(`${contentLang}/`)));
 
     const getCleanSlug = (d: any) => {
       const raw = d.slug || d.id.replace(/\.mdx?$/, '');
-      return raw.replace(new RegExp(`^${lang}/`), '');
+      return raw.replace(new RegExp(`^${contentLang}/`, 'i'), '');
     };
 
     for (const doc of langDocs) {
