@@ -170,12 +170,12 @@ const issuesUrl = 'https://github.com/fynx-dev/kyna-release/issues';
               <p>{card.body}</p>
             </div>
             <div class="image-comparison" data-image-comparison style="--split: 50%;">
-              <img class="comparison-original" src={asset(`assets/images/features/${original}`)} alt={card.originalAlt} loading="lazy" decoding="async" />
-              <div class="comparison-enhanced" aria-hidden="true">
-                <img src={asset(`assets/images/features/${enhanced}`)} alt="" loading="lazy" decoding="async" />
+              <img class="comparison-base" src={asset(`assets/images/features/${enhanced}`)} alt={card.enhancedAlt} loading="lazy" decoding="async" />
+              <div class="comparison-overlay" aria-hidden="true">
+                <img src={asset(`assets/images/features/${original}`)} alt="" loading="lazy" decoding="async" />
               </div>
-              <span class="comparison-label comparison-label-original">{card.originalLabel}</span>
               <span class="comparison-label comparison-label-enhanced">{card.title}</span>
+              <span class="comparison-label comparison-label-original">{card.originalLabel}</span>
               <button class="comparison-handle" type="button" role="slider" aria-label={card.sliderLabel} aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
                 <span aria-hidden="true">↔</span>
               </button>
