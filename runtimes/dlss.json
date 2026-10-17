@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "version": "1.2.3",
+  "url": "https://github.com/fynx-dev/kyna-release/releases/download/dlss-runtime-v1.2.3/nvngx_dlssnr.dll",
+  "sha256": "dcc0dc2414aedec4a8e084647070383be068554042587180c20c784d4772d36f",
+  "sizeBytes": 165840496,
+  "fileName": "nvngx_dlssnr.dll",
+  "manualUrl": "https://github.com/fynx-dev/kyna-release/releases/tag/dlss-runtime-v1.2.3"
+}
