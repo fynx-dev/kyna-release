@@ -21,7 +21,7 @@ group: "Getting Started"
 ## 🚀 Installation & Updating
 
 1. **Download Installer**
-   Visit [GitHub Releases](https://github.com/fynx-dev/kyna-release/releases/latest) to download `Kyna-Setup.exe`.
+   Visit [GitHub Releases](https://github.com/fynx-dev/kyna-release/releases/latest) to download `Kyna-Player-vX.Y.Z-windows-x64.exe`.
 2. **Run Setup Wizard**
    Launch the setup program and follow the on-screen steps to install.
 3. **Upgrading**

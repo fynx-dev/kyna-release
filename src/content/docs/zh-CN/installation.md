@@ -21,7 +21,7 @@ group: "入门指南"
 ## 🚀 安装与升级
 
 1. **下载安装包**
-   前往 [GitHub Releases](https://github.com/fynx-dev/kyna-release/releases/latest) 下载 `Kyna-Setup.exe`。
+   前往 [GitHub Releases](https://github.com/fynx-dev/kyna-release/releases/latest) 下载 `Kyna-Player-vX.Y.Z-windows-x64.exe`。
 2. **运行安装向导**
    双击安装程序并按照提示完成安装，从开始菜单启动。
 3. **版本更新**

@@ -37,7 +37,6 @@ const issuesUrl = 'https://github.com/fynx-dev/kyna-release/issues';
       <p class="quiet-note">{copy.hero.note}</p>
     </div>
     <div class="hero-stage reveal" aria-label={copy.hero.screenshotAlt ?? copy.features.playback.screenshotAlt}>
-      <div class="stage-topline"><span>{copy.hero.nowPlaying}</span><span>01—08</span></div>
       <div class="screen-frame screen-hero has-image" data-shot={copy.hero.screenshot ?? "main.webp"} aria-label={copy.hero.screenshotAlt ?? copy.features.playback.screenshotAlt}>
         <img src={asset(`assets/images/features/${copy.hero.screenshot ?? "main.webp"}`)} alt={copy.hero.screenshotAlt ?? copy.features.playback.screenshotAlt} loading="eager" decoding="async" />
       </div>

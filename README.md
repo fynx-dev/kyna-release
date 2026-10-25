@@ -1,6 +1,6 @@
-# Kyna Release
+# Kyna Player Release
 
-Kyna for Windows: downloads, installation guidance, and feedback.
+Kyna Player for Windows: downloads, installation guidance, and feedback.
 
 ## Website
 
@@ -8,7 +8,7 @@ The user-facing landing page is built with Astro and deployed through GitHub Pag
 
 ## Download
 
-Download the latest `Kyna-vX.Y.Z-windows-x64.exe` and its matching `SHA256SUMS` file from [Releases](../../releases). See the [Windows installation guide](docs/windows-install.md) for verification, installation, upgrades, and uninstalling.
+Download the latest `Kyna-Player-vX.Y.Z-windows-x64.exe` and its matching `SHA256SUMS` file from [Releases](../../releases). See the [Windows installation guide](docs/windows-install.md) for verification, installation, upgrades, and uninstalling.
 
 ## Feedback
 

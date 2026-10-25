@@ -2,7 +2,7 @@
   "name": "kyna-release",
   "private": true,
   "version": "0.1.0",
-  "description": "User-facing Kyna downloads, installation guidance, and landing page.",
+  "description": "User-facing Kyna Player downloads, installation guidance, and landing page.",
   "type": "module",
   "scripts": {
     "dev": "astro dev --host 127.0.0.1 --port 4300",
