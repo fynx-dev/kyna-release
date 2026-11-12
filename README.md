@@ -8,7 +8,7 @@ The user-facing landing page is built with Astro and deployed through GitHub Pag
 
 ## Download
 
-Download the latest `Kyna-Player-vX.Y.Z-windows-x64.exe` and its matching `SHA256SUMS` file from [Releases](../../releases). See the [Windows installation guide](docs/windows-install.md) for verification, installation, upgrades, and uninstalling.
+Download the latest `Kyna-Player-vX.Y.Z-windows-x64.exe` and its matching `SHA256SUMS` file from [Releases](../../releases). See the [Windows installation guide](docs/windows-install.md) for verification, installation, upgrades, and uninstalling. If Kyna Player crashes or closes unexpectedly, follow the [startup and crash troubleshooting steps](docs/windows-install.md#troubleshoot-startup-crashes).
 
 ## Feedback
 

@@ -29,12 +29,17 @@ group: "入门指南"
 
 ---
 
-## 🗄️ 应用数据与缓存目录
+## 🗄️ 应用数据与日志
 
-Kyna Player 的用户数据集中保存在标准用户目录中：
-- **目录路径**：`%APPDATA%\KynaPlayer\`（在 **设置 → 通用** 中可一键打开）。
-- **文件结构**：
-  - `config.json`：软件偏好设置与快捷键绑定。
-  - `history.json`：历史播放进度与断点记忆。
-  - `thumbnails\`：时间轴悬停预览缩略图缓存。
-  - `models\`：本地离线 Whisper 语音模型。
+安装版的用户数据位于 `%LOCALAPPDATA%\Kyna\`。若程序旁有 `data` 目录，便携版会使用该目录。日志保存在其中的 `logs\`；仅在用户选择保存时，崩溃 dump 才会写入 `dumps\`。
+
+---
+
+## 🛠️ 启动崩溃或闪退时怎么办？
+
+1. **记下错误提示。** 记录发生时间和错误码。若提示缺少必需组件，请使用[官方安装包](https://github.com/fynx-dev/kyna-release/releases/latest)重新安装。安装包已包含所需 MSVC 运行库，不要从第三方网站下载单独的 DLL。
+2. **查看日志。** 在文件资源管理器中打开 `%LOCALAPPDATA%\Kyna\logs`，查看 `kyna-launcher.log` 和崩溃时间附近最新的 `kyna-player-*.log`。便携版还需检查程序旁的 `data\logs`。
+3. **按需保存 dump。** 如果崩溃窗口提供保存选项，选择后文件会留在本机，并在文件资源管理器中定位。dump 可能包含私人内存数据，不会自动上传；有些早期故障无法生成 dump。请勿将 dump 发布在公开 Issue 中。
+4. **查找系统事件。** 按 **Win+R** 输入 `eventvwr.msc`，打开 **Windows 日志 → 应用程序**，找到崩溃时刻的错误，记录“**故障模块名称**”与“**异常代码**”。
+
+[反馈问题](https://github.com/fynx-dev/kyna-release/issues/new?template=bug.yml)时，请附上播放器和 Windows 版本、复现步骤、崩溃时间、错误码及相关日志。分享前请检查日志：普通日志即使经过尽力脱敏，仍可能包含私人路径或网址。dump 请在了解隐私风险后通过私密渠道提供。

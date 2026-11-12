@@ -29,12 +29,17 @@ group: "Getting Started"
 
 ---
 
-## 🗄️ App Data & Cache Directory
+## 🗄️ App Data & Logs
 
-User configurations and caches are securely stored in the standard AppData folder:
-- **Directory Path**: `%APPDATA%\KynaPlayer\` (accessible with one click in **Settings → General**).
-- **Structure**:
-  - `config.json`: Preferences, configurations, and custom keybindings.
-  - `history.json`: Playback history and resume positions.
-  - `thumbnails\`: Cached timeline hover thumbnail previews.
-  - `models\`: Local offline Whisper AI models.
+Installed builds store user data under `%LOCALAPPDATA%\Kyna\`. A portable build with a `data` folder beside the executable uses that folder instead. Logs are in `logs\`; crash dumps, if you choose to save one, are in `dumps\`.
+
+---
+
+## 🛠️ Troubleshoot Startup Crashes
+
+1. **Record the error.** Note when the crash happened and any message or code. If a required component is missing, reinstall from the [official release](https://github.com/fynx-dev/kyna-release/releases/latest). The installer includes the required MSVC runtime; do not download individual DLLs from third-party sites.
+2. **Find the logs.** Open `%LOCALAPPDATA%\Kyna\logs` in File Explorer. Check `kyna-launcher.log` and the newest `kyna-player-*.log`. For portable builds, also check `data\logs` beside the executable.
+3. **Save a dump only if you choose to.** If the crash dialog offers a dump option, select it to save a local file and reveal it in File Explorer. Dumps can contain private memory data and are never uploaded automatically. Some early failures cannot produce a dump; never attach one to a public issue.
+4. **Check Windows events.** Press **Win+R**, run `eventvwr.msc`, then open **Windows Logs → Application**. Find the error at the crash time and note the **Faulting module name** and **Exception code**.
+
+When [reporting a bug](https://github.com/fynx-dev/kyna-release/issues/new?template=bug.yml), include the player and Windows versions, reproduction steps, crash time, any error code, and relevant logs. Inspect logs before sharing: general logs can still contain private paths or URLs. Share dumps only through a private channel after reviewing their contents.
